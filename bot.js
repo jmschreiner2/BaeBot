@@ -16,7 +16,7 @@ client.on("message", (message) => {
         let content = message.content.toLowerCase();
 
         if (content.startsWith('!mm')){
-            message.channel.search('https://j.gifs.com/KZyx5G.gif');
+            message.channel.send('https://j.gifs.com/KZyx5G.gif');
         }
 
         if (content.startsWith('!real')) {
