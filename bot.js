@@ -19,14 +19,7 @@ client.on("message", (message) => {
             message.channel.send('https://j.gifs.com/KZyx5G.gif');
         }
 
-        if (content.startsWith('!real')) {
-            if (!message.channel.nsfw) {
-                message.channel.send('Sorry Senpai! That is too lewd! I\'m embarassed, nyow.');
-                return;
-            }
-            message.channel.send(real[0].getPictureUrl(''))
-            return;
-        }
+        
 
         if (content.startsWith('!realasian')) {
             if (!message.channel.nsfw) {
@@ -34,6 +27,15 @@ client.on("message", (message) => {
                 return;
             }
             message.channel.send(real[0].getPictureUrl('asian'))
+            return;
+        }
+
+        if (content.startsWith('!real')) {
+            if (!message.channel.nsfw) {
+                message.channel.send('Sorry Senpai! That is too lewd! I\'m embarassed, nyow.');
+                return;
+            }
+            message.channel.send(real[0].getPictureUrl(''))
             return;
         }
 
