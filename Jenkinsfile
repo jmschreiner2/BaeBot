@@ -11,7 +11,7 @@ node {
         withCredentials([string(credentialsId: 'BaebotToken', variable: 'baebotToken')]) {
             withCredentials([usernamePassword(credentialsId: 'baebot-reddit-client', passwordVariable: 'clientSecret', usernameVariable: 'clientId')]){
                 withCredentials([usernamePassword(credentialsId: 'baebot-reddit-user', passwordVariable: 'password', usernameVariable: 'username')]){
-                    auth = readJSON text: "{ \"token\": \"${baebotToken}\", \"reddit\": { \"clientId\": \"${clientId}\", \"clientSecret\": \"clientSecret\", \"username\": \"${username}\", \"password\": \"${password}\", \"userAgent\": \"Test Script\" }  }"
+                    auth = readJSON text: "{ \"token\": \"${baebotToken}\", \"reddit\": { \"clientId\": \"${clientId}\", \"clientSecret\": \"${clientSecret}\", \"username\": \"${username}\", \"password\": \"${password}\", \"userAgent\": \"Test Script\" }  }"
                 }
             }
             
