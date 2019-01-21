@@ -9,7 +9,12 @@ node {
    stage('Building Docker Image') {
         imageName = "jmschreiner/baebot:1.${currentBuild.number}.0"
         withCredentials([string(credentialsId: 'BaebotToken', variable: 'baebotToken')]) {
-            auth = readJSON text: "{ \"token\": \"${baebotToken}\" } "
+            withCredentials([string(credentialsId: 'baebot-reddit-client', passwordVariable: 'clientSecret', usernameVariable: 'clientId')]){
+                withCredentials([string(credentialsId: 'baebot-reddit-user', passwordVariable: 'password', usernameVariable: 'username')]){
+                    auth = readJSON text: "{ \"token\": \"${baebotToken}\", \"reddit\": { \"clientId\": \"${clientId}\", \"clientSecret\": \"clientSecret\", \"username\": \"${username}\", \"password\": \"${password}\", \"userAgent\": \"Test Script\" }  }"
+                }
+            }
+            
         }
 
         writeJSON file: 'auth.json', json: auth

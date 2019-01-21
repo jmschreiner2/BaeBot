@@ -8,7 +8,7 @@ client.on("ready", () => {
     console.log("I am ready!");
 });
 
-client.on("message", (message) => {
+client.on("message", async (message) => {
     try {
         let content = message.content.toLowerCase();
 
@@ -27,7 +27,14 @@ client.on("message", (message) => {
         if(!getPicture)
             return;
         
-        message.channel.send(getPicture(parts, api, isNsfw));
+        response = await getPicture(parts, api, isNsfw);
+
+        if(typeof response == typeof ''){
+            message.channel.send(response);
+        }
+        else {
+            message.channel.sendFile(response);
+        }
     }
     catch (e) {
         message.channel.send('Sorry Senpai! I am tired, nyow.');

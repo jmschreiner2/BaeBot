@@ -1,4 +1,10 @@
 const getRandomReal = require('./connectorManager').getRandomReal;
+const redditConnetor = require('./connectors/reddit');
+const fs = require('fs');
+
+const getFile = (name) => {
+    return fs.readFileSync(`assets/${name}.png`);
+}
 
 const commandMap = {
     mm: (params, api, isNsfw) => {
@@ -52,6 +58,23 @@ const commandMap = {
             return 'Please supply me something to search, nya!\n!custom <search text>'
         }
         return api.getPictureUrl(params[0]);
+    },
+    meme: async (params, api, isNsfw) => {
+        const post = await redditConnetor.getMeme();
+        return `${post.url} ${post.title}`;
+    },
+    deepfried: async (params, api, isNsfw) => {
+        const post = await redditConnetor.getSubredditTopPost('DeepFriedMemes');
+        return `${post.url} ${post.title}`;
+    },
+    doot: (params, api, isNsfw) => {
+        return getFile('doot');
+    },
+    gachi: (params, api, isNsfw) => {
+        return getFile('gachi');
+    },
+    kappa: (params, api, isNsfw) => {
+        return getFile('kappa');
     },
     help: (params, api, isNsfw) => {
         let output = '';
