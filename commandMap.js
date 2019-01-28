@@ -67,6 +67,10 @@ const commandMap = {
         const post = await redditConnetor.getSubredditTopPost('DeepFriedMemes');
         return `${post.url} ${post.title}`;
     },
+    spicymeme: async (params, api, isNsfw) => {
+        const post = await redditConnetor.getSubredditTopPost('ImGoingToHellForThis');
+        return `${post.url} ${post.title}`;
+    },
     doot: (params, api, isNsfw) => {
         return getFile('doot');
     },
