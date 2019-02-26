@@ -46,7 +46,7 @@ client.on("message", async (message) => {
         }
         else
         {
-            sendMessage(response, message);
+            sendMessage(response, message.channel);
         }
     }
     catch (e) {
