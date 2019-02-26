@@ -4,6 +4,15 @@ const auth = require("./auth.json");
 const connectorManager = require('./connectorManager');
 const commandMap = require('./commandMap');
 
+const sendMessage = (response, channel) => {
+    if(typeof response == typeof ''){
+        channel.send(response);
+    }
+    else {
+        channel.sendFile(response);
+    }
+}
+
 client.on("ready", () => {
     console.log("I am ready!");
 });
@@ -29,11 +38,15 @@ client.on("message", async (message) => {
         
         response = await getPicture(parts, api, isNsfw);
 
-        if(typeof response == typeof ''){
-            message.channel.send(response);
+        if(Array.isArray(response))
+        {
+            response.forEach(resp => {
+                sendMessage(resp, message.channel);
+            })
         }
-        else {
-            message.channel.sendFile(response);
+        else
+        {
+            sendMessage(response, message);
         }
     }
     catch (e) {
