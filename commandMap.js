@@ -90,7 +90,7 @@ const commandMap = {
         const even = getRandomInt(2);
 
         if(params !== undefined && params[0] !== undefined){
-            dabCount = Math.min(params[0], 10);
+            dabCount = Math.min(params[0], 5);
         }
 
         const dab = getFile('dab');
