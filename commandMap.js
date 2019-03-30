@@ -3,8 +3,8 @@ const redditConnetor = require('./connectors/reddit');
 const fs = require('fs');
 const getRandomInt = require('./common').getRandomInt;
 
-const getFile = (name) => {
-    return fs.readFileSync(`assets/${name}.png`);
+const getFile = (name, ext = 'png') => {
+    return fs.readFileSync(`assets/${name}.${ext}`);
 }
 
 const commandMap = {
@@ -115,7 +115,7 @@ const commandMap = {
         return ret;
     },
     dabird: (params, api, isNsfw) => {
-        return 'https://giphy.com/gifs/bird-dabbing-11RgbBSgomKx6'
+        return getFile('dabird', 'gif');
     },
     help: (params, api, isNsfw) => {
         let output = '';
