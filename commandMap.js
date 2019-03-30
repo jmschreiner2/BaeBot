@@ -114,6 +114,9 @@ const commandMap = {
 
         return ret;
     },
+    dabird: (params, api, isNsfw) => {
+        return 'https://giphy.com/gifs/bird-dabbing-11RgbBSgomKx6'
+    },
     help: (params, api, isNsfw) => {
         let output = '';
 
