@@ -1,88 +1,163 @@
 const getRandomReal = require('./connectorManager').getRandomReal;
 const redditConnetor = require('./connectors/reddit');
 const fs = require('fs');
-const getRandomInt = require('./common').getRandomInt;
+const { getRandomInt, ATTACHMENT, STRING, ARRAY } = require('./common');
 
 const getFile = (name, ext = 'png') => {
     return fs.readFileSync(`assets/${name}.${ext}`);
 }
 
+const nsfwError = {
+    body: 'Sorry Senpai! That is too lewd! I\'m embarassed, nyow.',
+    type: STRING
+}
+
 const commandMap = {
     mm: (params, api, isNsfw) => {
-        return 'https://j.gifs.com/KZyx5G.gif';
+        return {
+            body: getFile('mm', 'gif'),
+            name: 'mm.gif',
+            type: ATTACHMENT
+        };
     },
     realasian: (params, api, isNsfw) => {
         if(isNsfw) {
-            return getRandomReal().getPictureUrl('asian');
+            return {
+                body: getRandomReal().getPictureUrl('asian'),
+                type: ATTACHMENT
+            };
         }
         else{
-            return 'Sorry Senpai! That is too lewd! I\'m embarassed, nyow.';
+            return nsfwError;
         }
     },
     real: (params, api, isNsfw) => {
         if(isNsfw) {
-            return getRandomReal().getPictureUrl('');
+            return {
+                body: getRandomReal().getPictureUrl(''),
+                type: ATTACHMENT
+            }
         }
         else{
-            return 'Sorry Senpai! That is too lewd! I\'m embarassed, nyow.';
+            return nsfwError;
         }
     },
     trap: (params, api, isNsfw) => {
-        return api.getPictureUrl('trap');
+        return {
+            body: api.getPictureUrl('trap'),
+            type: ATTACHMENT
+        }
     },
     tohsaka: (params, api, isNsfw) => {
-        return api.getPictureUrl('tohsaka_rin');
+        return {
+            body: api.getPictureUrl('tohsaka_rin'),
+            type: ATTACHMENT
+        };
     },
     jeanne: (params, api, isNsfw) => {
-        return api.getPictureUrl('jeanne_d\'arc_(fate)_(all)');
+        return {
+            body: api.getPictureUrl('jeanne_d\'arc_(fate)_(all)'),
+            type: ATTACHMENT
+        };
     },
     kiara: (params, api, isNsfw) => {
-        return api.getPictureUrl('sesshouin_kiara');
+        return {
+            body: api.getPictureUrl('sesshouin_kiara'),
+            type: ATTACHMENT
+        };
     },
     illya: (params, api, isNsfw) => {
-        return api.getPictureUrl('illyasviel_von_einzbern');
+        return {
+            body: api.getPictureUrl('illyasviel_von_einzbern'),
+            type: ATTACHMENT
+        };
     },
     tamamo: (params, api, isNsfw) => {
-        return api.getPictureUrl('tamamo_(fate)_(all)');
+        return {
+            body: api.getPictureUrl('tamamo_(fate)_(all)'),
+            type: ATTACHMENT
+        };
     },
     bb: (params, api, isNsfw) => {
-        return api.getPictureUrl('bb_(fate/extra_ccc)');
+        return {
+            body: api.getPictureUrl('bb_(fate/extra_ccc)'),
+            type: ATTACHMENT
+        };
     },
     meltlilith: (params, api, isNsfw) => {
-        return api.getPictureUrl('meltlilith');
+        return {
+            body: api.getPictureUrl('meltlilith'),
+            type: ATTACHMENT
+        };
     },
     scathach: (params, api, isNsfw) => {
-        return api.getPictureUrl('scathach_(fate/grand_order)');
+        return {
+            body: api.getPictureUrl('scathach_(fate/grand_order)'),
+            type: ATTACHMENT
+        };
     },
     custom: (params, api, isNsfw) => {
         if(params.length == 0){
-            return 'Please supply me something to search, nya!\n!custom <search text>'
+            return {
+                body: 'Please supply me something to search, nya!\n!custom <search text>',
+                type: STRING
+            };
         }
-        return api.getPictureUrl(params[0]);
+        return {
+            body: api.getPictureUrl(params[0]),
+            type: ATTACHMENT
+        };
     },
     meme: async (params, api, isNsfw) => {
         const post = await redditConnetor.getMeme();
-        return `${post.url} ${post.title}`;
+        return {
+            body: post.url,
+            message: post.title,
+            type: ATTACHMENT
+        };
     },
     deepfried: async (params, api, isNsfw) => {
         const post = await redditConnetor.getSubredditTopPost('DeepFriedMemes');
-        return `${post.url} ${post.title}`;
+        return {
+            body: post.url,
+            message: post.title,
+            type: ATTACHMENT
+        };
     },
     spicymeme: async (params, api, isNsfw) => {
         const post = await redditConnetor.getSubredditTopPost('ImGoingToHellForThis');
-        return `${post.url} ${post.title}`;
+        return {
+            body: post.url,
+            message: post.title,
+            type: ATTACHMENT
+        };
     },
     doot: (params, api, isNsfw) => {
-        return getFile('doot');
+        return { 
+            body: getFile('doot'),
+            name: 'doot.png',
+            type: ATTACHMENT
+        };
     },
     gachi: (params, api, isNsfw) => {
-        return getFile('gachi');
+        return { 
+            body: getFile('gachi'),
+            name: 'gachi.png',
+            type: ATTACHMENT 
+        };
     },
     kappa: (params, api, isNsfw) => {
-        return getFile('kappa');
+        return { 
+            body: getFile('kappa'),
+            name: 'kappa.png',
+            type: ATTACHMENT
+        };
     },
     dawae: (params, api, isNsfw) => {
-        return '```⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⠶⣿⣭⡧⡤⣤⣻⣛⣹⣿⣿⣿⣶⣄\n⢀⢀⢀⢀⢀⢀⢀⢀⢀⣼⣊⣤⣶⣷⣶⣧⣤⣽⣿⣿⣿⣿⣿⣿⣷\n⢀⢀⢀⢀⢀⢀⢀⢀⢀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇\n⢀⢀⢀⢀⢀⢀⢀⣠⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧\n⢀⢀⢀⢀⢀⢀⠸⠿⣿⣿⠿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣻⣿⣿⣿⣿⣿⡆\n⢀⢀⢀⢀⢀⢀⢀⢸⣿⣿⡀⠘⣿⡿⢿⣿⣿⡟⣾⣿⣯⣽⣼⣿⣿⣿⣿⡀\n⢀⢀⢀⢀⢀⢀⡠⠚⢛⣛⣃⢄⡁⢀⢀⢀⠈⠁⠛⠛⠛⠛⠚⠻⣿⣿⣿⣷\n⢀⢀⣴⣶⣶⣶⣷⡄⠊⠉⢻⣟⠃⢀⢀⢀⢀⡠⠔⠒⢀⢀⢀⢀⢹⣿⣿⣿⣄⣀⣀⣀⣀⣀⣀\n⢠⣾⣿⣿⣿⣿⣿⣿⣿⣶⣄⣙⠻⠿⠶⠒⠁⢀⢀⣀⣤⣰⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄\n⢿⠟⠛⠋⣿⣿⣿⣿⣿⣿⣿⣟⡿⠷⣶⣶⣶⢶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄\n⢀⢀⢀⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠉⠙⠻⠿⣿⣿⡿\n⢀⢀⢀⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢀⢀⢀⢀⠈⠁\n⢀⢀⢀⢀⢸⣿⣿⣿⣿⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n⢀⢀⢀⢀⢸⣿⣿⣿⣿⣄⠈⠛⠿⣿⣿⣿⣿⣿⣿⣿⡿⠟⣹⣿⣿⣿⣿⣿⣿⣿⣿⠇\n⢀⢀⢀⢀⢀⢻⣿⣿⣿⣿⣧⣀⢀⢀⠉⠛⠛⠋⠉⢀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⠏\n⢀⢀⢀⢀⢀⢀⢻⣿⣿⣿⣿⣿⣷⣤⣄⣀⣀⣤⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋\n⢀⢀⢀⢀⢀⢀⢀⠙⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠛\n⢀⢀⢀⢀⢀⢀⢀⢀⢀⢹⣿⡿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠁\n⢀⢀⢀⢀⢀⢀⢀⢀⢀⢸⣿⡇⢀⠈⠙⠛⠛⠛⠛⠛⠛⠻⣿⣿⣿⠇\n⢀⢀⢀⢀⢀⢀⢀⢀⢀⣸⣿⡇⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢨⣿⣿\n⢀⢀⢀⢀⢀⢀⢀⢀⣾⣿⡿⠃⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢸⣿⡏\n⢀⢀⢀⢀⢀⢀⢀⢀⠻⠿⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢠⣿⣿⡇```';
+        return { 
+            body: '```⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⠶⣿⣭⡧⡤⣤⣻⣛⣹⣿⣿⣿⣶⣄\n⢀⢀⢀⢀⢀⢀⢀⢀⢀⣼⣊⣤⣶⣷⣶⣧⣤⣽⣿⣿⣿⣿⣿⣿⣷\n⢀⢀⢀⢀⢀⢀⢀⢀⢀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇\n⢀⢀⢀⢀⢀⢀⢀⣠⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧\n⢀⢀⢀⢀⢀⢀⠸⠿⣿⣿⠿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣻⣿⣿⣿⣿⣿⡆\n⢀⢀⢀⢀⢀⢀⢀⢸⣿⣿⡀⠘⣿⡿⢿⣿⣿⡟⣾⣿⣯⣽⣼⣿⣿⣿⣿⡀\n⢀⢀⢀⢀⢀⢀⡠⠚⢛⣛⣃⢄⡁⢀⢀⢀⠈⠁⠛⠛⠛⠛⠚⠻⣿⣿⣿⣷\n⢀⢀⣴⣶⣶⣶⣷⡄⠊⠉⢻⣟⠃⢀⢀⢀⢀⡠⠔⠒⢀⢀⢀⢀⢹⣿⣿⣿⣄⣀⣀⣀⣀⣀⣀\n⢠⣾⣿⣿⣿⣿⣿⣿⣿⣶⣄⣙⠻⠿⠶⠒⠁⢀⢀⣀⣤⣰⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄\n⢿⠟⠛⠋⣿⣿⣿⣿⣿⣿⣿⣟⡿⠷⣶⣶⣶⢶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄\n⢀⢀⢀⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠉⠙⠻⠿⣿⣿⡿\n⢀⢀⢀⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢀⢀⢀⢀⠈⠁\n⢀⢀⢀⢀⢸⣿⣿⣿⣿⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n⢀⢀⢀⢀⢸⣿⣿⣿⣿⣄⠈⠛⠿⣿⣿⣿⣿⣿⣿⣿⡿⠟⣹⣿⣿⣿⣿⣿⣿⣿⣿⠇\n⢀⢀⢀⢀⢀⢻⣿⣿⣿⣿⣧⣀⢀⢀⠉⠛⠛⠋⠉⢀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⠏\n⢀⢀⢀⢀⢀⢀⢻⣿⣿⣿⣿⣿⣷⣤⣄⣀⣀⣤⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋\n⢀⢀⢀⢀⢀⢀⢀⠙⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠛\n⢀⢀⢀⢀⢀⢀⢀⢀⢀⢹⣿⡿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠁\n⢀⢀⢀⢀⢀⢀⢀⢀⢀⢸⣿⡇⢀⠈⠙⠛⠛⠛⠛⠛⠛⠻⣿⣿⣿⠇\n⢀⢀⢀⢀⢀⢀⢀⢀⢀⣸⣿⡇⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢨⣿⣿\n⢀⢀⢀⢀⢀⢀⢀⢀⣾⣿⡿⠃⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢸⣿⡏\n⢀⢀⢀⢀⢀⢀⢀⢀⠻⠿⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢀⢠⣿⣿⡇```',
+            type: STRING
+        };
     },
     dab: (params, api, isNsfw) => {
         let dabCount = 1;
@@ -112,10 +187,18 @@ const commandMap = {
             }
         }
 
-        return ret;
+        return {
+            body: ret,
+            name: 'dab.png',
+            type: ATTACHMENT | ARRAY
+        };
     },
     dabird: (params, api, isNsfw) => {
-        return getFile('dabird', 'gif');
+        return {
+            body: getFile('dabird', 'gif'),
+            name: 'dabird.gif',
+            type: ATTACHMENT
+        };
     },
     help: (params, api, isNsfw) => {
         let output = '';
@@ -126,7 +209,10 @@ const commandMap = {
           }
         }
 
-        return `Hello Nyow!\nThese are the commands I nyow:\n${output.substr(2)}`;
+        return {
+            body: `Hello Nyow!\nThese are the commands I nyow:\n${output.substr(2)}`,
+            type: STRING
+        };
     }
 }
 

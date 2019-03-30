@@ -1,15 +1,36 @@
-const Discord = require("discord.js");
-const client = new Discord.Client();
+const { Client, Attachment, RichEmbed } = require("discord.js");
+const client = new Client();
 const auth = require("./auth.json");
 const connectorManager = require('./connectorManager');
 const commandMap = require('./commandMap');
+const { STRING, ATTACHMENT, ARRAY } = require('./common.js');
 
-const sendMessage = (response, channel) => {
-    if(typeof response == typeof ''){
-        channel.send(response);
+const sendMessage = (body, type, channel, { message, name }) => {
+    if((type & STRING) > 0){
+        channel.send(body);
+    }
+    else if ((type & ATTACHMENT) > 0) {
+        let data = {};
+
+        if(typeof body === typeof ''){
+            const embed = new RichEmbed();
+
+            embed.setURL(body);
+            embed.setTitle('SAUCE');
+            embed.setImage(body);
+
+            data = { embed };
+        }
+        else {
+            const attachment = new Attachment(body, name);
+
+            data = { files: [ attachment ] };
+        }
+
+        channel.send(message, data);
     }
     else {
-        channel.sendFile(response);
+        channel.send("I don't know what to do nyaa.");
     }
 }
 
@@ -38,15 +59,15 @@ client.on("message", async (message) => {
         
         response = await getPicture(parts, api, isNsfw);
 
-        if(Array.isArray(response))
+        if((response.type & ARRAY) > 0)
         {
-            response.forEach(resp => {
-                sendMessage(resp, message.channel);
+            response.body.forEach(resp => {
+                sendMessage(resp, response.type & ~ARRAY, message.channel, response);
             })
         }
         else
         {
-            sendMessage(response, message.channel);
+            sendMessage(response.body, response.type, message.channel, response);
         }
     }
     catch (e) {
