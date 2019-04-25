@@ -200,6 +200,13 @@ const commandMap = {
             type: ATTACHMENT
         };
     },
+    these: (params, api, isNsfw) => {
+        return {
+            body: getFile('psy'),
+            name: 'these.png',
+            type: ATTACHMENT
+        };
+    },
     help: (params, api, isNsfw) => {
         let output = '';
 
