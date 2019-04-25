@@ -207,6 +207,13 @@ const commandMap = {
             type: ATTACHMENT
         };
     },
+    fbi: (params, api, isNsfw) => {
+        return {
+            body: getFile('fbi', 'gif'),
+            name: 'fbi.gif',
+            type: ATTACHMENT
+        };
+    },
     help: (params, api, isNsfw) => {
         let output = '';
 
