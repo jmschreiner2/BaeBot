@@ -214,6 +214,12 @@ const commandMap = {
             type: ATTACHMENT
         };
     },
+    edifier: (params, api, isNsfw) => {
+        return {
+            body: 'https://www.amazon.com/Swans-Speakers-Bluetooth-Bookshelf-Enclosure/dp/B07C1TVLDX',
+            type: STRING
+        }
+    },
     help: (params, api, isNsfw) => {
         let output = '';
 
