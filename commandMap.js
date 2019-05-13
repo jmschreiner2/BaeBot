@@ -1,5 +1,6 @@
 const getRandomReal = require('./connectorManager').getRandomReal;
 const redditConnetor = require('./connectors/reddit');
+const lolibooruConnector = require('./connectors/lolibooru')
 const fs = require('fs');
 const { getRandomInt, ATTACHMENT, STRING, ARRAY } = require('./common');
 
@@ -218,6 +219,31 @@ const commandMap = {
         return {
             body: 'https://www.amazon.com/Swans-Speakers-Bluetooth-Bookshelf-Enclosure/dp/B07C1TVLDX',
             type: STRING
+        }
+    },
+    loli: (params, api, isNsfw) => {
+        if(isNsfw) {
+            const rnd = getRandomInt(6);
+
+            if(rnd === 1){
+                return {
+                    body: getFile('fbi', 'gif'),
+                    name: 'fbi.gif',
+                    type: ATTACHMENT
+                };
+            }
+
+            const tag = params.length == 0 ? '' : params[0]
+
+            const ret = lolibooruConnector.getPictureUrl(tag)
+
+            return {
+                body: ret,
+                type: ATTACHMENT
+            };
+        }
+        else{
+            return nsfwError;
         }
     },
     help: (params, api, isNsfw) => {
