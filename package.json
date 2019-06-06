@@ -6,10 +6,10 @@
     "author": "YOUR-NAME-HERE",
     "dependencies": {
         "discord.io": "^2.5.3",
-        "discord.js": "^11.3.2",
-        "snoowrap": "^1.15.2",
-        "sync-request": "^6.0.0",
-        "winston": "^2.4.1",
+        "discord.js": "^11.5.1",
+        "snoowrap": "^1.16.0",
+        "sync-request": "^6.1.0",
+        "winston": "^2.4.4",
         "xml2js": "^0.4.19"
     }
 }
