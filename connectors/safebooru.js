@@ -22,6 +22,6 @@ module.exports = {
             obj = result;
         });
 
-        return `https:${obj.posts.post[post].$.file_url}`;
+        return `${obj.posts.post[post].$.file_url}`;
     }
 }
