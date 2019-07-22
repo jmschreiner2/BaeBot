@@ -4,5 +4,6 @@ module.exports = {
     },
     ATTACHMENT: 0x1,
     STRING: 0x2,
-    ARRAY: 0x4
+    ARRAY: 0x4,
+    AUDIO: 0x8
 }

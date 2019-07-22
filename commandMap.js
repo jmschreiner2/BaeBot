@@ -2,7 +2,7 @@ const getRandomReal = require('./connectorManager').getRandomReal;
 const redditConnetor = require('./connectors/reddit');
 const lolibooruConnector = require('./connectors/lolibooru')
 const fs = require('fs');
-const { getRandomInt, ATTACHMENT, STRING, ARRAY } = require('./common');
+const { getRandomInt, ATTACHMENT, STRING, ARRAY, AUDIO } = require('./common');
 
 const getFile = (name, ext = 'png') => {
     return fs.readFileSync(`assets/${name}.${ext}`);
@@ -244,6 +244,12 @@ const commandMap = {
         }
         else{
             return nsfwError;
+        }
+    },
+    ohyeah: (params, api, isNsfw) => {
+        return {
+            body: './assets/ohyeah.mp3',
+            type: AUDIO
         }
     },
     help: (params, api, isNsfw) => {

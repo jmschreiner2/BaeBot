@@ -3,9 +3,9 @@ const client = new Client();
 const auth = require("./auth.json");
 const connectorManager = require('./connectorManager');
 const commandMap = require('./commandMap');
-const { STRING, ATTACHMENT, ARRAY } = require('./common.js');
+const { STRING, ATTACHMENT, ARRAY, AUDIO } = require('./common.js');
 
-const sendMessage = (body, type, channel, { message, name }) => {
+const sendMessage = (body, type, channel, { message, name }, origMessage) => {
     if((type & STRING) > 0){
         channel.send(body);
     }
@@ -28,6 +28,20 @@ const sendMessage = (body, type, channel, { message, name }) => {
         }
 
         channel.send(message, data);
+    }
+    else if ((type & AUDIO) > 0)
+    {
+        const voiceChannel = origMessage.member.voiceChannel;
+
+        if(!voiceChannel){
+            return;
+        }
+        voiceChannel.join()
+            .then(connection => {
+                const dispatcher = connection.playFile(body);
+                dispatcher.on("end", end => { voiceChannel.leave() });
+            })
+            .catch(console.error);
     }
     else {
         channel.send("I don't know what to do nyaa.");
@@ -62,12 +76,12 @@ client.on("message", async (message) => {
         if((response.type & ARRAY) > 0)
         {
             response.body.forEach(resp => {
-                sendMessage(resp, response.type & ~ARRAY, message.channel, response);
+                sendMessage(resp, response.type & ~ARRAY, message.channel, response, message);
             })
         }
         else
         {
-            sendMessage(response.body, response.type, message.channel, response);
+            sendMessage(response.body, response.type, message.channel, response, message);
         }
     }
     catch (e) {
