@@ -38,8 +38,9 @@ const sendMessage = (body, type, channel, { message, name }, origMessage) => {
         }
         voiceChannel.join()
             .then(connection => {
-                const dispatcher = connection.playFile(body);
-                dispatcher.on("end", end => { voiceChannel.leave() });
+                const stream = require('fs').createReadStream(body);
+                const dispatcher = connection.playStream(stream);
+                dispatcher.on("end", end => { setTimeout(() => voiceChannel.leave(), 1000); });
             })
             .catch(console.error);
     }

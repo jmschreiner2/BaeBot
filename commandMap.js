@@ -250,7 +250,13 @@ const commandMap = {
         return {
             body: './assets/ohyeah.mp3',
             type: AUDIO
-        }
+        };
+    },
+    imgay: (params, api, isNsfw) => {
+        return {
+            body: './assets/imgay.mp3',
+            type: AUDIO
+        };
     },
     help: (params, api, isNsfw) => {
         let output = '';
