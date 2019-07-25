@@ -9,9 +9,11 @@
         "discord.io": "^2.5.3",
         "discord.js": "^11.5.1",
         "ffmpeg-static": "^2.5.0",
-        "opusscript": "0.0.6",
+        "libsodium-wrappers": "^0.7.5",
+        "node-opus": "^0.3.2",
         "snoowrap": "^1.18.0",
         "sync-request": "^6.1.0",
+        "uws": "^100.0.1",
         "winston": "^2.4.4",
         "xml2js": "^0.4.19"
     }

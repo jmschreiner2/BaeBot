@@ -4,6 +4,7 @@ const auth = require("./auth.json");
 const connectorManager = require('./connectorManager');
 const commandMap = require('./commandMap');
 const { STRING, ATTACHMENT, ARRAY, AUDIO } = require('./common.js');
+const fs = require('fs');
 
 const sendMessage = (body, type, channel, { message, name }, origMessage) => {
     if((type & STRING) > 0){
@@ -36,13 +37,16 @@ const sendMessage = (body, type, channel, { message, name }, origMessage) => {
         if(!voiceChannel){
             return;
         }
+
+
         voiceChannel.join()
             .then(connection => {
-                const stream = require('fs').createReadStream(body);
+                const stream = fs.createReadStream(body);
                 const dispatcher = connection.playStream(stream);
-                dispatcher.on("end", end => { setTimeout(() => voiceChannel.leave(), 1000); });
+                dispatcher.on("finish", end => { setTimeout(() => voiceChannel.leave(), 1000); });
             })
-            .catch(console.error);
+            .catch(console.log);
+
     }
     else {
         channel.send("I don't know what to do nyaa.");
