@@ -258,6 +258,12 @@ const commandMap = {
             type: AUDIO
         };
     },
+    like: (params, api, isNsfw) => {
+        return {
+            body: './assets/like.aac',
+            type: AUDIO
+        }
+    },
     help: (params, api, isNsfw) => {
         let output = '';
 
